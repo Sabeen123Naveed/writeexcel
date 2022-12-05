@@ -49,7 +49,7 @@ class MyHomePage1 extends StatelessWidget {
 
        }
      }
-     print("...............................${list}");
+     print("................................${list}");
 
   }
 
