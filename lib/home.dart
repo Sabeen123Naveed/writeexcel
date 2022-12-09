@@ -20,12 +20,14 @@ class MyHomePage1 extends StatelessWidget {
 
     final result = await FilePicker.getFile(
       allowedExtensions: ['xlsx'],
-      type: FileType.custom,
+      type:FileType.custom
+
     );
     //final result1 = await FilePicker.getDirectoryPath()
 
     // if no file is picked
-    if (result == null) return;
+    if (result == null)
+      return;
 
     // we get the file from result object
     final file = result.absolute;
@@ -36,27 +38,60 @@ class MyHomePage1 extends StatelessWidget {
   }
   List<String> list = [];
 
+
   void _openFile(file) {
+    //OpenFile.open(file.path);
+    //  OpenFile.open(file.path);
 
-     OpenFile.open(file.path);
+
     // List<String> list = [];
-     var bytes = (file).readAsBytesSync();
-     var excel = Excel.decodeBytes(bytes);
-     for (var table in excel.tables.keys) {
-       for (var row in excel.tables[table]!.rows) {
-         list.add(row.toString().trim());
-        // print("...............................${list}");
+    var bytes = (file).readAsBytesSync();
+    var excel = Excel.decodeBytes(bytes);
+    for (var table in excel.tables.keys) {
+      for (List row in excel.tables[table]!.rows) {
 
-       }
-     }
-     print("................................${list}");
 
+        row.forEach((element) => print("${element}"));
+
+
+
+        list.add(row.toString());
+        // OpenFile.open(file.list.add(row.toString()));
+
+
+
+
+      }
+    }
+    //  print("................................${list}");
+  //  getListFromExcel(file);
   }
 
 
 
 
+    /*Future<List<MyData>> getListFromExcel(File file) async {
+      Excel excelFile = Excel.decodeBytes(await file.readAsBytes());
+      if (excelFile.sheets.isEmpty) {
+        throw ArgumentError("Excel file has no sheets");
+      }
+      Sheet excelSheet = excelFile.sheets.values.first;
+      return excelSheet.rows.map<MyData>((List<Data?> row) {
+        if (row[0] == null || row[1] == null || row[2] == null) {
+          throw ArgumentError("Excel file contains empty cells");
+        }
+        else {
+          return
+            MyData(row[0]!.value.toString(), row[1]!.value.toString(),
+                row[2]!.value.toString());
 
+        }
+
+      }
+
+      ).toList();
+
+    }*/
 
 
 
@@ -81,7 +116,8 @@ class MyHomePage1 extends StatelessWidget {
                 color: Colors.green,
               ),
             ),
-             Expanded(
+             Container(
+               height: 80,
                child: ListView.builder
                  (
                    itemCount: list.length,
@@ -108,4 +144,11 @@ class MyHomePage1 extends StatelessWidget {
   }
 
 }
+
+/*class MyData {
+  MyData(this.Id, this.Name,this.Age);
+  final String Id;
+  final String Name;
+  final String Age;
+}*/
 
